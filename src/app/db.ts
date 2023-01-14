@@ -2,7 +2,7 @@ import { ICustomer } from "./models/customer.model";
 
 export const customers: ICustomer[] = [
     {
-        id: "",
+        id: "1",
         firstName: "Oliver",
         lastName: "Jake",
         email: "oliver@gmail.com",
@@ -12,7 +12,7 @@ export const customers: ICustomer[] = [
 
     },
     {
-        id: "",
+        id: "2",
         firstName: "Oliver",
         lastName: "Jake",
         email: "oliver@gmail.com",
