@@ -8,7 +8,7 @@ import { ICustomer } from '../models/customer.model';
 export class CustomerService {
 
     
-    public getCustomer(): Observable<ICustomer[]> {
+    public getCustomers(): Observable<ICustomer[]> {
     }
     
     public addCustomer(customer: ICustomer): Observable<ICustomer> {
