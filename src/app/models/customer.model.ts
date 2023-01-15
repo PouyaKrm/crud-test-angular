@@ -1,5 +1,6 @@
+import * as Parse from "parse";
+
 export interface ICustomer {
-    id: string;
     firstName: string;
 	lastName: string;
 	dateOfBirth: Date;
@@ -7,4 +8,5 @@ export interface ICustomer {
 	email: string;
 	bankAccountNumber: string;
 }
+
 

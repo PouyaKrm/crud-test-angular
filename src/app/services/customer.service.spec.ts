@@ -6,33 +6,31 @@ describe("CsutomerService", () => {
 
 
     TestBed.configureTestingModule({ providers: [CustomerService] });
-
-    let service = TestBed.inject(CustomerService);
+    let service: CustomerService;
     let customer: ICustomer;
     beforeEach(() => {
         customer = {
-            id: "1",
             firstName: "test",
             lastName: "test",
             email: "test@email.com",
             dateOfBirth: new Date(),
             phoneNumber: "test",
             bankAccountNumber: "test",
-        }
+        };
+        
+        service = TestBed.inject(CustomerService);
     })
 
-    it("getCustomers should resturn a valid list of customers", (done: DoneFn) => {
-        service.getCustomers().subscribe(val => {
-            expect(val).toBe([]);
-            done();
-        })
-    });
 
     it("addCustomers should resturn a valid customer", (done: DoneFn) => {
 
         service.addCustomer(customer).subscribe(val => {
             expect(val).toBe(customer);
-            done();
+            service.customersDb.subscribe(val => {
+                expect(val.length).toEqual(1);
+                expect(val[0]).toEqual(jasmine.objectContaining(customer));
+                done();
+            })
         })
     });
 

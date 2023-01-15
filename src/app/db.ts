@@ -1,6 +1,6 @@
 import { ICustomer } from "./models/customer.model";
 
-export const customers: ICustomer[] = [
+export const customersDb: ICustomer[] = [
     {
         id: "1",
         firstName: "Oliver",
@@ -23,3 +23,6 @@ export const customers: ICustomer[] = [
     },
 ]
 
+export function addCustomer(customer: ICustomer): void {
+    customersDb.push(customer);
+}
