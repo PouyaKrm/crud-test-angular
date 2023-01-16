@@ -1,4 +1,5 @@
 import { TestBed } from "@angular/core/testing";
+import { lastValueFrom } from "rxjs";
 import { ICustomer } from "../models/customer.model";
 import { CustomerService } from "./customer.service";
 
@@ -17,7 +18,7 @@ describe("CsutomerService", () => {
             phoneNumber: "test",
             bankAccountNumber: "test",
         };
-        
+
         service = TestBed.inject(CustomerService);
     })
 
@@ -34,10 +35,17 @@ describe("CsutomerService", () => {
         })
     });
 
-    it("updateCustomers should resturn a valid customer", (done: DoneFn) => {
+    it("updateCustomers should resturn a valid customer", async (done: DoneFn) => {
 
-        service.updateCustomer(customer).subscribe(val => {
-            expect(val).toBe(customer);
+        await service.addCustomer(customer);
+
+        let newCustomer = { ...customer, firstName: "newName" };
+        let result = await lastValueFrom(service.updateCustomer(customer.email, newCustomer));
+
+        expect(result).toBe(newCustomer);
+        service.customersDb.subscribe(val => {
+            expect(val.length).toEqual(1);
+            expect(val[0]).toEqual(jasmine.objectContaining(newCustomer));
             done();
         })
     });
