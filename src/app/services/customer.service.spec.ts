@@ -37,7 +37,7 @@ describe("CsutomerService", () => {
 
     it("updateCustomers should resturn a valid customer", async (done: DoneFn) => {
 
-        await service.addCustomer(customer);
+        await lastValueFrom(service.addCustomer(customer));
 
         let newCustomer = { ...customer, firstName: "newName" };
         let result = await lastValueFrom(service.updateCustomer(customer.email, newCustomer));
@@ -50,11 +50,17 @@ describe("CsutomerService", () => {
         })
     });
 
-    it("removeCustomers should resturn a valid customer", (done: DoneFn) => {
+    it("removeCustomers should resturn a valid customer", async (done: DoneFn) => {
 
-        service.removeCustomer(customer).subscribe(val => {
-            expect(val).toBe(customer);
-            done();
+        await lastValueFrom(service.addCustomer(customer));
+
+        service.removeCustomer(customer.email).subscribe(val => {
+            expect(val).toEqual(jasmine.objectContaining(customer));
+            service.customersDb.subscribe(cs => {
+                expect(cs.length).toEqual(0);
+                done();
+            })
+           
         })
     });
 

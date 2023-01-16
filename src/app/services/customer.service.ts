@@ -32,8 +32,11 @@ export class CustomerService {
         return of(customer);
     }
 
-    public removeCustomer(customer: ICustomer): Observable<ICustomer> {
-        return of(customer);
+    public removeCustomer(email: string): Observable<ICustomer> {
+        let r = this.getByEmail(email);
+        this._customersDb.splice(r.index, 1);
+        this.publishCustomers();
+        return of(r.customer);
     }
 
     private checkCustomerExist(customer: ICustomer): void {
